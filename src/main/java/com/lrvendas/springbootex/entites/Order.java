@@ -12,32 +12,36 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.lrvendas.springbootex.enums.OrderStatus;
 
 @Entity
 @Table(name = "tb_order")
-public class Order implements Serializable{
+public class Order implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	//garanti que seja mostrado no json com o formato ISO 8601
+	private Integer orderStatus;
+
+	// garanti que seja mostrado no json com o formato ISO 8601
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss 'Z'", timezone = "GMT")
 	private Instant moment;
-	
-	
-	@ManyToOne //relacionamento entre pedido e cliente, para o jpa tranformar em chave estrangeira(Order N - 1 User)(lado N para 1)
-	@JoinColumn(name = "fk_client_id")//nome da chave estrnageira
+
+	@ManyToOne // relacionamento entre pedido e cliente, para o jpa tranformar em chave
+				// estrangeira(Order N - 1 User)(lado N para 1)
+	@JoinColumn(name = "fk_client_id") // nome da chave estrnageira
 	private User client;
-	
+
 	public Order() {
-		
+
 	}
 
-	public Order(Long id, Instant moment, User client) {
+	public Order(Long id, OrderStatus orderStatus, Instant moment, User client) {
 		this.id = id;
+		setOrderStatus(orderStatus);
 		this.moment = moment;
 		this.client = client;
 	}
@@ -48,6 +52,15 @@ public class Order implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public OrderStatus getOrderStatus() {
+		return OrderStatus.valueOf(orderStatus);
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		if (orderStatus != null)
+			this.orderStatus = orderStatus.getCode();
 	}
 
 	public Instant getMoment() {
@@ -90,5 +103,5 @@ public class Order implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 }

@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 import com.lrvendas.springbootex.entites.Order;
 import com.lrvendas.springbootex.entites.User;
+import com.lrvendas.springbootex.enums.OrderStatus;
 import com.lrvendas.springbootex.repositories.OrderRepository;
 import com.lrvendas.springbootex.repositories.UserRepository;
 
@@ -32,9 +33,9 @@ public class TestConfig implements CommandLineRunner {
 		User u2 = new User(null, "Alex Green", "alex@gmail.com", "977777777", "123456");
 		userRepository.saveAll(Arrays.asList(u1, u2));
 
-		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), u1);
-		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), u2);
-		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), u1);
+		Order o1 = new Order(null, OrderStatus.PAID, Instant.parse("2019-06-20T19:53:07Z"), u1);
+		Order o2 = new Order(null, OrderStatus.WAITTING_PAYAMENT,Instant.parse("2019-07-21T03:42:10Z"), u2);
+		Order o3 = new Order(null,OrderStatus.CANCELED, Instant.parse("2019-07-22T15:21:22Z"), u1);
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
 	}
 }
