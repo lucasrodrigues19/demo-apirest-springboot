@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "tb_user")
 public class User implements Serializable {
@@ -24,7 +26,9 @@ public class User implements Serializable {
 	private String email;
 	private String fone;
 	private String password;
-	
+
+	@JsonIgnore //para nao entrar em lupping, por causa da associação dupla
+	//quando tem uma associação para muitos, ocorre o lazy loading, os objetos não são carregados automaticamente, o jackson aciona o JPA para fazer isso
 	@OneToMany(mappedBy = "client") //User 1 - N pedidos (lado 1 para N)
 	private List<Order> orders = new ArrayList<>();
 

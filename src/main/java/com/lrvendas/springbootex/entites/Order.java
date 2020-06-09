@@ -1,6 +1,7 @@
 package com.lrvendas.springbootex.entites;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "tb_order")
@@ -19,7 +22,11 @@ public class Order implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private InstantiationError moment;
+
+	//garanti que seja mostrado no json com o formato ISO 8601
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss 'Z'", timezone = "GMT")
+	private Instant moment;
+	
 	
 	@ManyToOne //relacionamento entre pedido e cliente, para o jpa tranformar em chave estrangeira(Order N - 1 User)(lado N para 1)
 	@JoinColumn(name = "fk_client_id")//nome da chave estrnageira
@@ -29,7 +36,7 @@ public class Order implements Serializable{
 		
 	}
 
-	public Order(Long id, InstantiationError moment, User client) {
+	public Order(Long id, Instant moment, User client) {
 		this.id = id;
 		this.moment = moment;
 		this.client = client;
@@ -43,11 +50,11 @@ public class Order implements Serializable{
 		this.id = id;
 	}
 
-	public InstantiationError getMoment() {
+	public Instant getMoment() {
 		return moment;
 	}
 
-	public void setMoment(InstantiationError moment) {
+	public void setMoment(Instant moment) {
 		this.moment = moment;
 	}
 
