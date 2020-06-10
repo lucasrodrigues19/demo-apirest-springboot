@@ -3,6 +3,8 @@ package com.lrvendas.springbootex.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -18,41 +20,48 @@ public class UserService {
 
 	@Autowired
 	private UserRepository repository;
-	
-	public List<User> findAll(){
+
+	public List<User> findAll() {
 		return repository.findAll();
 	}
-	
+
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id);
-		return obj.orElseThrow(()-> new ResourceNotFoundException(id)); //caso nao tenha nemhum objeto, lança uma exessao
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id)); // caso nao tenha nemhum objeto, lança uma
+																			// exessao
 	}
-	
-	public User insert (User user) {
+
+	public User insert(User user) {
 		return repository.save(user);
 	}
 
 	public void delete(Long id) {
 		try {
-		repository.deleteById(id);
-		}catch(EmptyResultDataAccessException e) {
+			repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
 			e.printStackTrace();
 			throw new ResourceNotFoundException(id);
-		}catch(DataIntegrityViolationException e) {
+		} catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());
 		}
 	}
+
 	public User update(Long id, User obj) {
-		User entity = repository.getOne(id); //vai me da um objeto monitorado
-		updateDate(entity, obj);
-		return repository.save(entity);
+		try {
+			User entity = repository.getOne(id); // vai me da um objeto monitorado
+			updateDate(entity, obj);
+			return repository.save(entity);
+		} catch (EntityNotFoundException e) {
+			e.printStackTrace();
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateDate(User entity, User obj) {
 		entity.setName(obj.getName());
 		entity.setEmail(obj.getEmail());
 		entity.setFone(obj.getFone());
-		
+
 	}
 }
