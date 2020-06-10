@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.lrvendas.springbootex.entites.Category;
 import com.lrvendas.springbootex.entites.Order;
+import com.lrvendas.springbootex.entites.OrderItem;
 import com.lrvendas.springbootex.entites.Product;
 import com.lrvendas.springbootex.entites.User;
 import com.lrvendas.springbootex.enums.OrderStatus;
 import com.lrvendas.springbootex.repositories.CategoryRepository;
+import com.lrvendas.springbootex.repositories.OrderItemRepository;
 import com.lrvendas.springbootex.repositories.OrderRepository;
 import com.lrvendas.springbootex.repositories.ProductRepository;
 import com.lrvendas.springbootex.repositories.UserRepository;
@@ -35,6 +37,9 @@ public class TestConfig implements CommandLineRunner {
 
 	@Autowired
 	private ProductRepository productRepository;
+
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 
 //dataseeding
 	@Override
@@ -66,5 +71,11 @@ public class TestConfig implements CommandLineRunner {
 		Order o2 = new Order(null, OrderStatus.WAITTING_PAYAMENT, Instant.parse("2019-07-21T03:42:10Z"), u2);
 		Order o3 = new Order(null, OrderStatus.CANCELED, Instant.parse("2019-07-22T15:21:22Z"), u1);
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+		
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice()); 
+		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
 	}
 }
