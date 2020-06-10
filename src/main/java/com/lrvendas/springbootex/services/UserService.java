@@ -32,4 +32,16 @@ public class UserService {
 		repository.deleteById(id);
 		
 	}
+	public User update(Long id, User obj) {
+		User entity = repository.getOne(id); //vai me da um objeto monitorado
+		updateDate(entity, obj);
+		return repository.save(entity);
+	}
+
+	private void updateDate(User entity, User obj) {
+		entity.setName(obj.getName());
+		entity.setEmail(obj.getEmail());
+		entity.setFone(obj.getFone());
+		
+	}
 }
