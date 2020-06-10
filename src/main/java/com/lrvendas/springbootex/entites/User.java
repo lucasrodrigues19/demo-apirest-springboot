@@ -113,7 +113,7 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", fone=" + fone + ", password=" + password
-				+ ", orders=" + orders + "]";
+				+ ", orders=" + getOrders() + "]";
 	}
 	
 

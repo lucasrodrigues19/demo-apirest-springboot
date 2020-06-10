@@ -17,7 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lrvendas.springbootex.enums.OrderStatus;
 
 @Entity
@@ -105,6 +104,13 @@ public class Order implements Serializable {
 		this.payament = payament;
 	}
 
+	public Double getTotal() {
+		Double soma = 0d;
+		for(OrderItem item: getItems()) {
+			soma+= item.getSubTotal();
+		}
+		return soma;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -132,9 +138,14 @@ public class Order implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", orderStatus=" + orderStatus + ", moment=" + moment + ", client=" + client + "]";
+		return "Order [getId()=" + getId() + ", getOrderStatus()=" + getOrderStatus() + ", getMoment()=" + getMoment()
+				+ ", getClient()=" + getClient() + ", getItems()=" + getItems() + ", getPayament()=" + getPayament()
+				+ ", getTotal()=" + getTotal() + "]";
 	}
 
+	
+
+	
 	
 
 }

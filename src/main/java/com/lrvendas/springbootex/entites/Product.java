@@ -129,7 +129,13 @@ public class Product implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", description=" + description + "]";
+		return "Product [getId()=" + getId() + ", getName()=" + getName() + ", getDescription()=" + getDescription()
+				+ ", getPrice()=" + getPrice() + ", getImgUrl()=" + getImgUrl() + ", getCategories()=" + getCategories()
+				+ ", getOrders()=" + getOrders() + "]";
 	}
+
+	
+
+	
 
 }
