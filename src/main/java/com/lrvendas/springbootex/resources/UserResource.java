@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,13 +37,15 @@ public class UserResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<User> insert(@RequestBody User user) { //@RequestBody pra dizer que o objeto vai chegar em um json na hr da request, e depois ser deserealizado para um obj
+	public ResponseEntity<User> insert(@RequestBody User user) { 
 		user = service.insert(user);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();//instancia a uri
 		return ResponseEntity.created(uri).body(user);  
 	}
-	//201, é um codigo especifico do http, que quer dizer que vc criou um novo recurso 
-	//created: espera um objeto do tipo URI, no padrao http é  quando reorna o 201 esperado que a resposta contenha um cabecalho chamado "location" contendo o endereco que vc inseriu
-	//path: vai receber um padrao para montar minha url, no caso o recurso que eu inserir vai ter: ex: users/id que eu inserir
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id){
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 	
 }
