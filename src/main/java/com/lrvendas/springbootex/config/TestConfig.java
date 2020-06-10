@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.lrvendas.springbootex.entites.Category;
 import com.lrvendas.springbootex.entites.Order;
 import com.lrvendas.springbootex.entites.OrderItem;
+import com.lrvendas.springbootex.entites.Payament;
 import com.lrvendas.springbootex.entites.Product;
 import com.lrvendas.springbootex.entites.User;
 import com.lrvendas.springbootex.enums.OrderStatus;
@@ -77,5 +78,10 @@ public class TestConfig implements CommandLineRunner {
 		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
 		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice()); 
 		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
+		
+		Payament pay = new Payament(null,Instant.parse("2019-06-20T21:53:07Z"),o1);
+		o1.setPayament(pay); 
+		orderRepository.save(o1);//o jpa vai tratar de salvar meu pagamento, no relacionamento de 1 para 1
+		
 	}
 }
