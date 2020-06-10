@@ -1,6 +1,7 @@
 package com.lrvendas.springbootex.config;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.lrvendas.springbootex.entites.Category;
 import com.lrvendas.springbootex.entites.Order;
+import com.lrvendas.springbootex.entites.Product;
 import com.lrvendas.springbootex.entites.User;
 import com.lrvendas.springbootex.enums.OrderStatus;
 import com.lrvendas.springbootex.repositories.CategoryRepository;
 import com.lrvendas.springbootex.repositories.OrderRepository;
+import com.lrvendas.springbootex.repositories.ProductRepository;
 import com.lrvendas.springbootex.repositories.UserRepository;
 
 //classe de configuração para instancia um banco de dados
@@ -31,6 +34,9 @@ public class TestConfig implements CommandLineRunner {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
+	@Autowired
+	private ProductRepository productRepository;
+
 //dataseeding
 	@Override
 	public void run(String... args) throws Exception {// vai ser executado quando a aplicacao for iniciadas
@@ -47,5 +53,12 @@ public class TestConfig implements CommandLineRunner {
 		Category cat2 = new Category(null, "Books");
 		Category cat3 = new Category(null, "Computers"); 
 		categoryRepository.saveAll(Arrays.asList(cat1,cat2,cat3));
+		
+		Product p1 = new Product(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
+		Product p2 = new Product(null, "Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0, "");
+		Product p3 = new Product(null, "Macbook Pro", "Nam eleifend maximus tortor, at mollis.", 1250.0, "");
+		Product p4 = new Product(null, "PC Gamer", "Donec aliquet odio ac rhoncus cursus.", 1200.0, "");
+		Product p5 = new Product(null, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, ""); 
+		productRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
 	}
 }
